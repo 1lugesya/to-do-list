@@ -16,9 +16,47 @@ function eventListeners() {
 function addTodo(e) {
   const newTodo = todoInput.value.trim();
 
-  addTodoToUI(newTodo);
+  if (newTodo === "") {
+    showAlert("danger", "Lütfen bir todo girin..");
+  } else {
+    addTodoToUI(newTodo);
+    addTodoToStorage(newTodo);
+    showAlert("success", "Todo başarıyla eklendi..");
+  }
 
   e.preventDefault();
+}
+function getTodosFromStorage() {
+  // catch all todos from storage
+  let todos;
+
+  if (localStorage.getItem("todos") === null) {
+    todos = [];
+  } else {
+    todos = JSON.parse(localStorage.getItem("todos"));
+  }
+  return todos;
+}
+
+function addTodoToStorage(newTodo) {
+  let todos = getTodosFromStorage();
+
+  todos.push(newTodo);
+
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
+function showAlert(type, message) {
+  const alert = document.createElement("div");
+
+  alert.className = `alert alert-${type}`;
+
+  alert.textContent = message;
+
+  firstCardBody.appendChild(alert);
+
+  setTimeout(function () {
+    alert.remove();
+  }, 1000);
 }
 
 function addTodoToUI(newTodo) {
@@ -38,7 +76,4 @@ function addTodoToUI(newTodo) {
 
   //listItem add to TodoList
   todoList.appendChild(listItem);
-
-  
-
 }

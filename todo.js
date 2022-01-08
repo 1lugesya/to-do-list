@@ -17,6 +17,7 @@ function eventListeners() {
   filter.addEventListener("keyup", filterTodos);
   clearButton.addEventListener("click", clearAllTodos);
 }
+
 function clearAllTodos(e) {
   if (confirm("Tümünü silmek istediğinize emin misiniz?")) {
     //clear todos from UI
@@ -27,6 +28,7 @@ function clearAllTodos(e) {
     localStorage.removeItem("todos");
   }
 }
+
 function filterTodos(e) {
   const filterValue = e.target.value.toLowerCase();
   const listItem = document.querySelectorAll(".list-group-item");
@@ -41,6 +43,7 @@ function filterTodos(e) {
     }
   });
 }
+
 function deleteTodo(e) {
   if (e.target.className === "fa fa-remove") {
     e.target.parentElement.parentElement.remove();
@@ -48,6 +51,7 @@ function deleteTodo(e) {
     showAlert("success", "Todo başarıyla silindi..");
   }
 }
+
 function deleteTodoFromStorage(deleteTodo) {
   let todos = getTodosFromStorage();
 
@@ -59,6 +63,7 @@ function deleteTodoFromStorage(deleteTodo) {
 
   localStorage.setItem("todos", JSON.stringify(todos));
 }
+
 function loadAllTodosToUI() {
   let todos = getTodosFromStorage();
 
@@ -80,6 +85,7 @@ function addTodo(e) {
 
   e.preventDefault();
 }
+
 function getTodosFromStorage() {
   // catch all todos from storage
   let todos;
@@ -99,6 +105,7 @@ function addTodoToStorage(newTodo) {
 
   localStorage.setItem("todos", JSON.stringify(todos));
 }
+
 function showAlert(type, message) {
   const alert = document.createElement("div");
 

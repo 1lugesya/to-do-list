@@ -10,7 +10,61 @@ const clearButton = document.querySelector("#clear-todos");
 eventListeners();
 
 function eventListeners() {
+  // all eventlisteners
   form.addEventListener("submit", addTodo);
+  document.addEventListener("DOMContentLoaded", loadAllTodosToUI);
+  secondCardBody.addEventListener("click", deleteTodo);
+  filter.addEventListener("keyup", filterTodos);
+  clearButton.addEventListener("click", clearAllTodos);
+}
+function clearAllTodos(e) {
+  if (confirm("Tümünü silmek istediğinize emin misiniz?")) {
+    //clear todos from UI
+
+    while (todoList.firstElementChild != null) {
+      todoList.removeChild(todoList.firstElementChild);
+    }
+    localStorage.removeItem("todos");
+  }
+}
+function filterTodos(e) {
+  const filterValue = e.target.value.toLowerCase();
+  const listItem = document.querySelectorAll(".list-group-item");
+
+  listItem.forEach(function (listItem) {
+    const text = listItem.textContent.toLowerCase();
+
+    if (text.indexOf(filterValue) === -1) {
+      listItem.setAttribute("style", "display: none !important");
+    } else {
+      listItem.setAttribute("style", "display: block");
+    }
+  });
+}
+function deleteTodo(e) {
+  if (e.target.className === "fa fa-remove") {
+    e.target.parentElement.parentElement.remove();
+    deleteTodoFromStorage(e.target.parentElement.parentElement.textContent);
+    showAlert("success", "Todo başarıyla silindi..");
+  }
+}
+function deleteTodoFromStorage(deleteTodo) {
+  let todos = getTodosFromStorage();
+
+  todos.forEach(function (todo, index) {
+    if (todo === deleteTodo) {
+      todos.splice(index, 1); // delete value from array
+    }
+  });
+
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
+function loadAllTodosToUI() {
+  let todos = getTodosFromStorage();
+
+  todos.forEach(function (todo) {
+    addTodoToUI(todo);
+  });
 }
 
 function addTodo(e) {

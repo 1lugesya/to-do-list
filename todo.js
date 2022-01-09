@@ -106,7 +106,7 @@ function addTodoToStorage(newTodo) {
   localStorage.setItem("todos", JSON.stringify(todos));
 }
 
-function showAlert(type, message) {
+function showAlert(type, message){
   const alert = document.createElement("div");
 
   alert.className = `alert alert-${type}`;
